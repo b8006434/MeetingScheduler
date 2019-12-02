@@ -15,17 +15,22 @@ namespace MeetingApp
 {
     public partial class mainMenu : Form
     {
-     private string user1PrefSet;
-     private string user1ExclSet;
-     private string user2PrefSet;
-     private string user2ExclSet;
-     private string user3PrefSet;
-     private string user3ExclSet;
-     private string user4PrefSet;
-     private string user4ExclSet;
-     private string fromSlot;
-     private string toSlot;
-     private string specEq;
+     private string user1PrefSet; //user1 preference set
+     private string user1ExclSet; //user1 exclusion set
+     private string user2PrefSet; //user2 preference set
+     private string user2ExclSet; //user2 exclusion set
+     private string user3PrefSet;//user3 preference set
+     private string user3ExclSet;//user3 exclusion set
+     private string user4PrefSet;//user4 preference set
+     private string user4ExclSet;//user4 exclusion set
+     private string fromSlot;    //from slot given by initiator
+     private string toSlot;      //to slot given by initiator
+     private string specEq;      //special equipment selected by initiator
+     private string meetingRoom; //meeting room selected by initiator
+     private bool user1InMeeting = false; //has user1 been deleted from meeting
+     private bool user2InMeeting = false; //has user2 been deleted from meeting
+     private bool user3InMeeting = false; //has user3 been deleted from meeting
+     private bool user4InMeeting = false; //has user4 been deleted from meeting
 
         struct Slots
         {
@@ -39,7 +44,7 @@ namespace MeetingApp
           public int user3ExclSetint;
           public int user4PrefSetint;
           public int user4ExclSetint;
-        }
+        }                   //struct to hold all the information about the slots
 
         Slots slots = new Slots();
         public mainMenu()
@@ -49,6 +54,8 @@ namespace MeetingApp
 
         private void MeetingApp_Load(object sender, EventArgs e)
         {
+            //load the app with default data
+
             welcomelbl.Text = "Welcome " + loginScreen.user1.getusername();
             iniatortxt.Text = loginScreen.user1.getusername();
 
@@ -59,10 +66,12 @@ namespace MeetingApp
 
             string[] slots = { "Slot 1", "Slot 2", "Slot 3", "Slot 4", "Slot 5" };
             string[] equipment = { "Equipment 1", "Equipment 2", "Equipment 3", "Equipment 4", };
+            string[] meetingRoom = { "Room 1", "Room 2", "Room 3" };
             
             fromComboBox.DataSource = slots.ToList();
             toComboBox.DataSource = slots.ToList();
             specialuqcombobox.DataSource = equipment.ToList();
+            roomcombobox.DataSource = meetingRoom.ToList();
 
             user1txt.Text = "Slot 3";
             user2txt.Text = "Slot 3";
@@ -81,7 +90,7 @@ namespace MeetingApp
 
 
         private bool isDataFilledIn()
-        {
+        { //check that all the information has been filled in by the initator
             bool isData = false;
 
              user1PrefSet = user1txt.Text;
@@ -119,7 +128,12 @@ namespace MeetingApp
                                                     if(specialuqcombobox.SelectedItem != null)
                                                     {
                                                         specEq = specialuqcombobox.SelectedValue.ToString();
+                                                        if (roomcombobox.SelectedItem != null)
+                                                        {
+                                                            meetingRoom = roomcombobox.SelectedValue.ToString();
+                                                        }
                                                     }
+                                                    
                                                 }
                                                 else
                                                     errorstxtbox.Text=(loginScreen.user1.getusername() + ", please choose to slot");
@@ -159,7 +173,7 @@ namespace MeetingApp
 
         private void convertSlotsToInteger()
         {
-            
+          // Retrieve the slot value, and store it as a number for easier manipulation   
             if (fromSlot != null)
             {
                 if (fromSlot == "Slot 1")
@@ -294,6 +308,10 @@ namespace MeetingApp
 
         private bool checkIfSlotsMatch()
         {
+            //check for conflicts between user given slotsa and initator given slots
+            //if conflict arises, display which conflict and how to solve it to the user
+            //if there is no conflitm display that the user fits into meeting succesfully
+
             convertSlotsToInteger();
             bool checkIfSlotsMatch = false;
             bool u1check = false;
@@ -301,6 +319,7 @@ namespace MeetingApp
             bool u3check = false;
             bool u4check = false;
 
+            
             if ((slots.user1PrefSetint >= slots.fromSlotint) && ((slots.user1PrefSetint < slots.toSlotint)))
                 {
                 user1resulttxt.Text = "Success";
@@ -314,7 +333,23 @@ namespace MeetingApp
                 user1resulttxt.Text = "Extend your preference set, out of range"; }
             if (slots.user1PrefSetint > slots.toSlotint) {
                 user1resulttxt.Text = "Change preference set to earlier slot"; }
+            if(slots.user1PrefSetint == slots.toSlotint)
+            {
+                user1resulttxt.Text = "Success";
+                u1check = true;
+            }
+            if (slots.user1PrefSetint == slots.user1ExclSetint)
+            {
+                user1resulttxt.Text = "Can't have same preference and exclustion sets";
+                u1check = false;
+            }
 
+          
+            if (slots.user2PrefSetint == slots.toSlotint)
+            {
+                user2resulttxt.Text = "Success";
+                u2check = true;
+            }
             if ((slots.user2PrefSetint >= slots.fromSlotint) && ((slots.user2PrefSetint < slots.toSlotint)))
             {
                 user2resulttxt.Text = "Success";
@@ -332,7 +367,18 @@ namespace MeetingApp
             {
                 user2resulttxt.Text = "Change preference set to earlier slot";
             }
+            if (slots.user2PrefSetint == slots.user2ExclSetint)
+            {
+                user2resulttxt.Text = "Can't have same preference and exclustion sets";
+                u2check = false;
+            }
 
+            
+            if (slots.user3PrefSetint == slots.toSlotint)
+            {
+                user3resulttxt.Text = "Success";
+                u3check = true;
+            }
             if ((slots.user3PrefSetint >= slots.fromSlotint) && ((slots.user3PrefSetint < slots.toSlotint)))
             {
                 user3resulttxt.Text = "Success";
@@ -350,7 +396,19 @@ namespace MeetingApp
             {
                 user3resulttxt.Text = "Change preference set to earlier slot";
             }
+            if (slots.user3PrefSetint == slots.user3ExclSetint)
+            {
+                user3resulttxt.Text = "Can't have same preference and exclustion sets";
+                u3check = false;
+            }
 
+
+            
+            if (slots.user4PrefSetint == slots.toSlotint)
+            {
+                user4resulttxt.Text = "Success";
+                u4check = true;
+            }
             if ((slots.user4PrefSetint >= slots.fromSlotint) && ((slots.user4PrefSetint < slots.toSlotint)))
             {
                 user4resulttxt.Text = "Success";
@@ -368,6 +426,11 @@ namespace MeetingApp
             {
                 user4resulttxt.Text = "Change preference set to earlier slot";
             }
+            if (slots.user4PrefSetint == slots.user4ExclSetint)
+            {
+                user4resulttxt.Text = "Can't have same preference and exclustion sets";
+                u4check = false;
+            }
 
             if (u1check == true)
                 if (u2check == true)
@@ -380,65 +443,239 @@ namespace MeetingApp
 
         private int returnIdealMeetingDate()
         {
+            //check that there is at least one user in the meeting
+            //compute the meeting date for the user(s)
 
             if (checkIfSlotsMatch() == true)
             {
-                if (slots.user1PrefSetint != slots.user2ExclSetint)
+                if (checkUsersInMeeting() == true)
                 {
-                    if (slots.user1PrefSetint != slots.user3ExclSetint)
-                        if (slots.user1PrefSetint != slots.user4PrefSetint)
+                    if (user1InMeeting == true)
+                    {
+                        if(user2InMeeting == false)
                         {
-                            statustxtbox.Text = "Scheduled";
-                            errorstxtbox.Text = "";
-                            return slots.user1PrefSetint;
+                            if(user3InMeeting == false)
+                            {
+                                if(user4InMeeting == false)
+                                {
+                                    statustxtbox.Text = "Scheduled";
+                                    errorstxtbox.Text = "";
+                                    return slots.user1PrefSetint;
+                                }
+                                else
+                                {
+                                    if(slots.user1PrefSetint != slots.user4ExclSetint)
+                                    {
+                                        if(slots.user4ExclSetint != slots.user1PrefSetint)
+                                        {
+                                            statustxtbox.Text = "Scheduled";
+                                            errorstxtbox.Text = "";
+                                            return slots.user1PrefSetint;
+                                        }
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                if (slots.user1PrefSetint != slots.user3ExclSetint)
+                                {
+                                    if (slots.user3ExclSetint != slots.user1PrefSetint)
+                                    {
+                                        statustxtbox.Text = "Scheduled";
+                                        errorstxtbox.Text = "";
+                                        return slots.user1PrefSetint;
+                                    }
+                                }
+                            }
                         }
-                }
-                if (slots.user2PrefSetint != slots.user1ExclSetint)
-                {
-                    if (slots.user2PrefSetint != slots.user3ExclSetint)
-                        if (slots.user2PrefSetint != slots.user4ExclSetint)
+                        else
                         {
-                            statustxtbox.Text = "Scheduled";
-                            errorstxtbox.Text = "";
-                            return slots.user2PrefSetint;
+                            if (slots.user1PrefSetint != slots.user2ExclSetint)
+                            {
+                                if (slots.user2ExclSetint != slots.user1PrefSetint)
+                                {
+                                    statustxtbox.Text = "Scheduled";
+                                    errorstxtbox.Text = "";
+                                    return slots.user1PrefSetint;
+                                }
+                            }
                         }
-                }
-                if (slots.user3PrefSetint != slots.user1ExclSetint)
-                {
-                    if (slots.user3PrefSetint != slots.user2ExclSetint)
-                        if (slots.user3PrefSetint != slots.user4ExclSetint)
+                    }
+                    if (user2InMeeting == true)
+                    {
+                        if (user1InMeeting == false)
                         {
-                            statustxtbox.Text = "Scheduled";
-                            errorstxtbox.Text = "";
-                            return slots.user3PrefSetint;
+                            if (user3InMeeting == false)
+                            {
+                                if (user4InMeeting == false)
+                                {
+                                    statustxtbox.Text = "Scheduled";
+                                    errorstxtbox.Text = "";
+                                    return slots.user3PrefSetint;
+                                }
+                                else
+                                {
+                                    if (slots.user2PrefSetint != slots.user4ExclSetint)
+                                    {
+                                        if (slots.user4ExclSetint != slots.user2PrefSetint)
+                                        {
+                                            statustxtbox.Text = "Scheduled";
+                                            errorstxtbox.Text = "";
+                                            return slots.user2PrefSetint;
+                                        }
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                if (slots.user2PrefSetint != slots.user3ExclSetint)
+                                {
+                                    if (slots.user3ExclSetint != slots.user2PrefSetint)
+                                    {
+                                        statustxtbox.Text = "Scheduled";
+                                        errorstxtbox.Text = "";
+                                        return slots.user2PrefSetint;
+                                    }
+                                }
+                            }
                         }
-
-                }
-                if (slots.user4PrefSetint != slots.user1ExclSetint)
-                {
-                    if (slots.user4PrefSetint != slots.user2ExclSetint)
-                        if (slots.user4PrefSetint != slots.user3ExclSetint)
+                        else
                         {
-                            statustxtbox.Text = "Scheduled";
-                            errorstxtbox.Text = "";
-                            return slots.user4PrefSetint;
+                            if (slots.user2PrefSetint != slots.user1ExclSetint)
+                            {
+                                if (slots.user1ExclSetint != slots.user2PrefSetint)
+                                {
+                                    statustxtbox.Text = "Scheduled";
+                                    errorstxtbox.Text = "";
+                                    return slots.user2PrefSetint;
+                                }
+                            }
                         }
-                    
+                    }
+                    if (user3InMeeting == true)
+                    {
+                        if (user1InMeeting == false)
+                        {
+                            if (user2InMeeting == false)
+                            {
+                                if (user4InMeeting == false)
+                                {
+                                    statustxtbox.Text = "Scheduled";
+                                    errorstxtbox.Text = "";
+                                    return slots.user3PrefSetint;
+                                }
+                                else
+                                {
+                                    if (slots.user3PrefSetint != slots.user4ExclSetint)
+                                    {
+                                        if (slots.user4ExclSetint != slots.user3PrefSetint)
+                                        {
+                                            statustxtbox.Text = "Scheduled";
+                                            errorstxtbox.Text = "";
+                                            return slots.user3PrefSetint;
+                                        }
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                if (slots.user3PrefSetint != slots.user2ExclSetint)
+                                {
+                                    if (slots.user2ExclSetint != slots.user3PrefSetint)
+                                    {
+                                        statustxtbox.Text = "Scheduled";
+                                        errorstxtbox.Text = "";
+                                        return slots.user3PrefSetint;
+                                    }
+                                }
+                            }
+                        }
+                        else
+                        {
+                            if (slots.user3PrefSetint != slots.user1ExclSetint)
+                            {
+                                if (slots.user1ExclSetint != slots.user3PrefSetint)
+                                {
+                                    statustxtbox.Text = "Scheduled";
+                                    errorstxtbox.Text = "";
+                                    return slots.user3PrefSetint;
+                                }
+                            }
+                        }
+                    }
+                    if (user4InMeeting == true)
+                    {
+                        if (user1InMeeting == false)
+                        {
+                            if (user2InMeeting == false)
+                            {
+                                if (user3InMeeting == false)
+                                {
+                                    statustxtbox.Text = "Scheduled";
+                                    errorstxtbox.Text = "";
+                                    return slots.user4PrefSetint;
+                                }
+                                else
+                                {
+                                    if (slots.user4PrefSetint != slots.user3ExclSetint)
+                                    {
+                                        if (slots.user3ExclSetint != slots.user4PrefSetint)
+                                        {
+                                            statustxtbox.Text = "Scheduled";
+                                            errorstxtbox.Text = "";
+                                            return slots.user4PrefSetint;
+                                        }
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                if (slots.user4PrefSetint != slots.user2ExclSetint)
+                                {
+                                    if (slots.user2ExclSetint != slots.user4PrefSetint)
+                                    {
+                                        statustxtbox.Text = "Scheduled";
+                                        errorstxtbox.Text = "";
+                                        return slots.user4PrefSetint;
+                                    }
+                                }
+                            }
+                        }
+                        else
+                        {
+                            if (slots.user4PrefSetint != slots.user1ExclSetint)
+                            {
+                                if (slots.user1ExclSetint != slots.user4PrefSetint)
+                                {
+                                    statustxtbox.Text = "Scheduled";
+                                    errorstxtbox.Text = "";
+                                    return slots.user4PrefSetint;
+                                }
+                            }
+                        }
+                    }
                 }
-                
             }
+
 
             return 0;
         }
 
         private void setDetails()
         {
+            //set all the meeting information here
+            
             int meetingDate;
             isDataFilledIn();
             checkIfSlotsMatch();
             meetingDate = returnIdealMeetingDate();
-            meetingdatetxtbox.Text = meetingDate.ToString();
             specialEqtxtbox.Text = specEq;
+            meetingroomtxt.Text = meetingRoom;
+            checkStatus();
+            if (meetingDate != 0)
+            {
+                meetingdatetxtbox.Text = "Slot " + meetingDate.ToString();
+            }
             
             
 
@@ -447,10 +684,284 @@ namespace MeetingApp
 
         private void schedulemeetingbtn_Click(object sender, EventArgs e)
         {
-
-            setDetails();
+            //if there is at least 1 user in the meeting, schedule it
+            //otherwise show an error message
+            if (checkUsersInMeeting() == true)
+                setDetails();
+            else
+                MessageBox.Show("Can't create meeting with no users");
 
 
         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            //if delete user 1 button is clicked, check that the user is not important to the meeting
+            // if user is important, show an error message, otherwise delete the user
+            if(u1important.Checked == true)
+            {
+                
+                MessageBox.Show("Can't delete an important user!");
+            }
+            else
+            {
+                u1important.Visible = false;
+                user1lbl.Visible = false;
+                user1preflbl.Visible = false;
+                user1txt.Visible = false;
+                exclusionsetlbl.Visible = false;
+                user1exclusionsetbox.Visible = false;
+                user1resultlbl.Visible = false;
+                user1resulttxt.Visible = false;
+                u1deletebttn.Visible = false;
+            }
+        }
+
+        private void u2deletebttn_Click(object sender, EventArgs e)
+        {
+            //if delete user 2 button is clicked, check that the user is not important to the meeting
+            // if user is important, show an error message, otherwise delete the user
+            if (u2important.Checked == true)
+            {
+
+                MessageBox.Show("Can't delete an important user!");
+            }
+            else
+            {
+                u2important.Visible = false;
+                user2lbl.Visible = false;
+                user2preflbl.Visible = false;
+                user2txt.Visible = false;
+                exclusionsetlbluser2.Visible = false;
+                user2exclusionsetbox.Visible = false;
+                user2resultlbl.Visible = false;
+                user2resulttxt.Visible = false;
+                u2deletebttn.Visible = false;
+            }
+        }
+
+        private void u3deletebttn_Click(object sender, EventArgs e)
+        {
+            //if delete user 3 button is clicked, check that the user is not important to the meeting
+            // if user is important, show an error message, otherwise delete the user
+            if (u3important.Checked == true)
+            {
+
+                MessageBox.Show("Can't delete an important user!");
+            }
+            else
+            {
+                u3important.Visible = false;
+                user3lbl.Visible = false;
+                user3preflbl.Visible = false;
+                user3txt.Visible = false;
+                exclusionsetlbluser3.Visible = false;
+                user3exclusionsetbox.Visible = false;
+                user3resultlbl.Visible = false;
+                user3resulttxt.Visible = false;
+                u3deletebttn.Visible = false;
+            }
+        }
+
+        private void u4deletebttn_Click(object sender, EventArgs e)
+        {
+            //if delete user 4 button is clicked, check that the user is not important to the meeting
+            // if user is important, show an error message, otherwise delete the user
+            if (u4important.Checked == true)
+            {
+
+                MessageBox.Show("Can't delete an important user!");
+            }
+            else
+            {
+                u4important.Visible = false;
+                user4lbl.Visible = false;
+                user4preflbl.Visible = false;
+                user4txt.Visible = false;
+                exclusionsetlbluser4.Visible = false;
+                user4exclusionsetbox.Visible = false;
+                user4resultlbl.Visible = false;
+                user4resulttxt.Visible = false;
+                u4deletebttn.Visible = false;
+            }
+        }
+
+        private bool checkUsersInMeeting()
+        {
+            //compute how many users there are in the meeting
+            bool usersInMeeting = false;
+
+            if(user1lbl.Visible == true)
+            {
+                user1InMeeting = true;
+                if (user2lbl.Visible == true)
+                {
+                    user2InMeeting = true;
+                    if (user3lbl.Visible == true)
+                    {
+                        user3InMeeting = true;
+                        if (user4lbl.Visible == true)
+                        {
+                            user4InMeeting = true;
+                            usersInMeeting = true;
+                        }
+                        else usersInMeeting = true;
+                    }
+                    else
+                        usersInMeeting = true;
+                }
+                else
+                    usersInMeeting = true;
+            }
+            if (user2lbl.Visible == true)
+            {
+                user2InMeeting = true;
+                if (user1lbl.Visible == true)
+                {
+                    user1InMeeting = true;
+                    if (user3lbl.Visible == true)
+                    {
+                        user3InMeeting = true;
+                        if (user4lbl.Visible == true)
+                        {
+                            user4InMeeting = true;
+                            usersInMeeting = true;
+                        }
+                        else usersInMeeting = true;
+                    }
+                    else
+                        usersInMeeting = true;
+                }
+                else
+                    usersInMeeting = true;
+            }
+            if (user3lbl.Visible == true)
+            {
+                user3InMeeting = true;
+                if (user2lbl.Visible == true)
+                {
+                    user2InMeeting = true;
+                    if (user1lbl.Visible == true)
+                    {
+                        user1InMeeting = true;
+                        if (user4lbl.Visible == true)
+                        {
+                            user4InMeeting = true;
+                            usersInMeeting = true;
+                        }
+                        else usersInMeeting = true;
+                    }
+                    else
+                        usersInMeeting = true;
+                }
+                else
+                    usersInMeeting = true;
+            }
+            if (user4lbl.Visible == true)
+            {
+                user4InMeeting = true;
+                if (user2lbl.Visible == true)
+                {
+                    user2InMeeting = true;
+                    if (user3lbl.Visible == true)
+                    {
+                        user3InMeeting = true;
+                        if (user1lbl.Visible == true)
+                        {
+                            user1InMeeting = true;
+                            usersInMeeting = true;
+                        }
+                        else usersInMeeting = true;
+                    }
+                    else
+                        usersInMeeting = true;
+                }
+                else
+                    usersInMeeting = true;
+            }
+            return usersInMeeting;
+        }
+           
+        private void checkStatus()
+        {
+            //check what the status message should be, and set it
+            if(user1resulttxt.Text == "Success")
+            {
+                if (user2resulttxt.Text == "Success")
+                {
+                    if (user3resulttxt.Text == "Success")
+                    {
+                        if (user4resulttxt.Text == "Success")
+                        {
+                            statustxtbox.Text = "Scheduled";
+                        }
+                        else
+                            statustxtbox.Text = "Not Scheduled";
+                    }
+                    else
+                        statustxtbox.Text = "Not Scheduled";
+                }
+                else
+                    statustxtbox.Text = "Not Scheduled";
+            }
+            if (user2resulttxt.Text == "Success")
+            {
+                if (user1resulttxt.Text == "Success")
+                {
+                    if (user3resulttxt.Text == "Success")
+                    {
+                        if (user4resulttxt.Text == "Success")
+                        {
+                            statustxtbox.Text = "Scheduled";
+                        }
+                        else
+                            statustxtbox.Text = "Not Scheduled";
+                    }
+                    else
+                        statustxtbox.Text = "Not Scheduled";
+                }
+                else
+                    statustxtbox.Text = "Not Scheduled";
+            }
+            if (user3resulttxt.Text == "Success")
+            {
+                if (user2resulttxt.Text == "Success")
+                {
+                    if (user1resulttxt.Text == "Success")
+                    {
+                        if (user4resulttxt.Text == "Success")
+                        {
+                            statustxtbox.Text = "Scheduled";
+                        }
+                        else
+                            statustxtbox.Text = "Not Scheduled";
+                    }
+                    else
+                        statustxtbox.Text = "Not Scheduled";
+                }
+                else
+                    statustxtbox.Text = "Not Scheduled";
+            }
+            if (user4resulttxt.Text == "Success")
+            {
+                if (user2resulttxt.Text == "Success")
+                {
+                    if (user3resulttxt.Text == "Success")
+                    {
+                        if (user1resulttxt.Text == "Success")
+                        {
+                            statustxtbox.Text = "Scheduled";
+                        }
+                        else
+                            statustxtbox.Text = "Not Scheduled";
+                    }
+                    else
+                        statustxtbox.Text = "Not Scheduled";
+                }
+                else
+                    statustxtbox.Text = "Not Scheduled";
+            }
+        }
+
+        }
     }
-}

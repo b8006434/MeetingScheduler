@@ -77,6 +77,16 @@
             this.errorstxtbox = new System.Windows.Forms.TextBox();
             this.specialEqlbl = new System.Windows.Forms.Label();
             this.specialEqtxtbox = new System.Windows.Forms.TextBox();
+            this.u1important = new System.Windows.Forms.CheckBox();
+            this.u2important = new System.Windows.Forms.CheckBox();
+            this.u3important = new System.Windows.Forms.CheckBox();
+            this.u4important = new System.Windows.Forms.CheckBox();
+            this.u1deletebttn = new System.Windows.Forms.Button();
+            this.u2deletebttn = new System.Windows.Forms.Button();
+            this.u3deletebttn = new System.Windows.Forms.Button();
+            this.u4deletebttn = new System.Windows.Forms.Button();
+            this.roomlbl = new System.Windows.Forms.Label();
+            this.roomcombobox = new System.Windows.Forms.ComboBox();
             this.SuspendLayout();
             // 
             // welcomelbl
@@ -533,11 +543,119 @@
             this.specialEqtxtbox.Size = new System.Drawing.Size(141, 19);
             this.specialEqtxtbox.TabIndex = 47;
             // 
+            // u1important
+            // 
+            this.u1important.AutoSize = true;
+            this.u1important.Location = new System.Drawing.Point(314, 41);
+            this.u1important.Name = "u1important";
+            this.u1important.Size = new System.Drawing.Size(76, 17);
+            this.u1important.TabIndex = 48;
+            this.u1important.Text = "Important?";
+            this.u1important.UseVisualStyleBackColor = true;
+            // 
+            // u2important
+            // 
+            this.u2important.AutoSize = true;
+            this.u2important.Location = new System.Drawing.Point(460, 41);
+            this.u2important.Name = "u2important";
+            this.u2important.Size = new System.Drawing.Size(76, 17);
+            this.u2important.TabIndex = 49;
+            this.u2important.Text = "Important?";
+            this.u2important.UseVisualStyleBackColor = true;
+            // 
+            // u3important
+            // 
+            this.u3important.AutoSize = true;
+            this.u3important.Location = new System.Drawing.Point(591, 41);
+            this.u3important.Name = "u3important";
+            this.u3important.Size = new System.Drawing.Size(76, 17);
+            this.u3important.TabIndex = 50;
+            this.u3important.Text = "Important?";
+            this.u3important.UseVisualStyleBackColor = true;
+            // 
+            // u4important
+            // 
+            this.u4important.AutoSize = true;
+            this.u4important.Location = new System.Drawing.Point(730, 43);
+            this.u4important.Name = "u4important";
+            this.u4important.Size = new System.Drawing.Size(76, 17);
+            this.u4important.TabIndex = 51;
+            this.u4important.Text = "Important?";
+            this.u4important.UseVisualStyleBackColor = true;
+            // 
+            // u1deletebttn
+            // 
+            this.u1deletebttn.Location = new System.Drawing.Point(280, 352);
+            this.u1deletebttn.Name = "u1deletebttn";
+            this.u1deletebttn.Size = new System.Drawing.Size(75, 23);
+            this.u1deletebttn.TabIndex = 52;
+            this.u1deletebttn.Text = "Delete User";
+            this.u1deletebttn.UseVisualStyleBackColor = true;
+            this.u1deletebttn.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // u2deletebttn
+            // 
+            this.u2deletebttn.Location = new System.Drawing.Point(440, 352);
+            this.u2deletebttn.Name = "u2deletebttn";
+            this.u2deletebttn.Size = new System.Drawing.Size(75, 23);
+            this.u2deletebttn.TabIndex = 53;
+            this.u2deletebttn.Text = "Delete User";
+            this.u2deletebttn.UseVisualStyleBackColor = true;
+            this.u2deletebttn.Click += new System.EventHandler(this.u2deletebttn_Click);
+            // 
+            // u3deletebttn
+            // 
+            this.u3deletebttn.Location = new System.Drawing.Point(591, 352);
+            this.u3deletebttn.Name = "u3deletebttn";
+            this.u3deletebttn.Size = new System.Drawing.Size(75, 23);
+            this.u3deletebttn.TabIndex = 54;
+            this.u3deletebttn.Text = "Delete User";
+            this.u3deletebttn.UseVisualStyleBackColor = true;
+            this.u3deletebttn.Click += new System.EventHandler(this.u3deletebttn_Click);
+            // 
+            // u4deletebttn
+            // 
+            this.u4deletebttn.Location = new System.Drawing.Point(731, 352);
+            this.u4deletebttn.Name = "u4deletebttn";
+            this.u4deletebttn.Size = new System.Drawing.Size(75, 23);
+            this.u4deletebttn.TabIndex = 55;
+            this.u4deletebttn.Text = "Delete User";
+            this.u4deletebttn.UseVisualStyleBackColor = true;
+            this.u4deletebttn.Click += new System.EventHandler(this.u4deletebttn_Click);
+            // 
+            // roomlbl
+            // 
+            this.roomlbl.AutoSize = true;
+            this.roomlbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.roomlbl.Location = new System.Drawing.Point(18, 199);
+            this.roomlbl.Name = "roomlbl";
+            this.roomlbl.Size = new System.Drawing.Size(61, 20);
+            this.roomlbl.TabIndex = 56;
+            this.roomlbl.Text = "Room:";
+            // 
+            // roomcombobox
+            // 
+            this.roomcombobox.FormattingEnabled = true;
+            this.roomcombobox.Location = new System.Drawing.Point(87, 201);
+            this.roomcombobox.Name = "roomcombobox";
+            this.roomcombobox.Size = new System.Drawing.Size(121, 21);
+            this.roomcombobox.TabIndex = 57;
+            // 
             // mainMenu
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(930, 503);
+            this.Controls.Add(this.roomcombobox);
+            this.Controls.Add(this.roomlbl);
+            this.Controls.Add(this.u4deletebttn);
+            this.Controls.Add(this.u3deletebttn);
+            this.Controls.Add(this.u2deletebttn);
+            this.Controls.Add(this.u1deletebttn);
+            this.Controls.Add(this.u4important);
+            this.Controls.Add(this.u3important);
+            this.Controls.Add(this.u2important);
+            this.Controls.Add(this.u1important);
             this.Controls.Add(this.specialEqtxtbox);
             this.Controls.Add(this.specialEqlbl);
             this.Controls.Add(this.errorstxtbox);
@@ -646,5 +764,15 @@
         private System.Windows.Forms.TextBox errorstxtbox;
         private System.Windows.Forms.Label specialEqlbl;
         private System.Windows.Forms.TextBox specialEqtxtbox;
+        private System.Windows.Forms.CheckBox u1important;
+        private System.Windows.Forms.CheckBox u2important;
+        private System.Windows.Forms.CheckBox u3important;
+        private System.Windows.Forms.CheckBox u4important;
+        private System.Windows.Forms.Button u1deletebttn;
+        private System.Windows.Forms.Button u2deletebttn;
+        private System.Windows.Forms.Button u3deletebttn;
+        private System.Windows.Forms.Button u4deletebttn;
+        private System.Windows.Forms.Label roomlbl;
+        private System.Windows.Forms.ComboBox roomcombobox;
     }
 }
