@@ -57,7 +57,7 @@ namespace MeetingApp
             bool canLogin = false; //temp variable to return
 
             SqlConnection con = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\user\Documents\database1.mdf;Integrated Security=True;Connect Timeout=30");
-            con.Open();  // establish connection to database and open the connection
+            con.Open();  // establish connection to database and open the connection (database is included in the zip, you may need to change the url to your specific location)
 
             SqlCommand checkUser = new SqlCommand("Select usernameDatabase from login where usernameDatabase= @username", con);  //search username in database
             SqlCommand checkPassword = new SqlCommand("Select passwordDatabase from login where passwordDatabase= @password", con); //search password in database

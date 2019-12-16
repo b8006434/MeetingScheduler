@@ -15,35 +15,35 @@ namespace MeetingApp
 {
     public partial class mainMenu : Form
     {
-     private string user1PrefSet; //user1 preference set
-     private string user1ExclSet; //user1 exclusion set
-     private string user2PrefSet; //user2 preference set
-     private string user2ExclSet; //user2 exclusion set
-     private string user3PrefSet;//user3 preference set
-     private string user3ExclSet;//user3 exclusion set
-     private string user4PrefSet;//user4 preference set
-     private string user4ExclSet;//user4 exclusion set
-     private string fromSlot;    //from slot given by initiator
-     private string toSlot;      //to slot given by initiator
-     private string specEq;      //special equipment selected by initiator
-     private string meetingRoom; //meeting room selected by initiator
-     private bool user1InMeeting = false; //has user1 been deleted from meeting
-     private bool user2InMeeting = false; //has user2 been deleted from meeting
-     private bool user3InMeeting = false; //has user3 been deleted from meeting
-     private bool user4InMeeting = false; //has user4 been deleted from meeting
+        private string user1PrefSet; //user1 preference set
+        private string user1ExclSet; //user1 exclusion set
+        private string user2PrefSet; //user2 preference set
+        private string user2ExclSet; //user2 exclusion set
+        private string user3PrefSet;//user3 preference set
+        private string user3ExclSet;//user3 exclusion set
+        private string user4PrefSet;//user4 preference set
+        private string user4ExclSet;//user4 exclusion set
+        private string fromSlot;    //from slot given by initiator
+        private string toSlot;      //to slot given by initiator
+        private int specEq;      //special equipment selected by initiator
+        private string meetingRoom; //meeting room selected by initiator
+        private bool user1InMeeting = false; //has user1 been deleted from meeting
+        private bool user2InMeeting = false; //has user2 been deleted from meeting
+        private bool user3InMeeting = false; //has user3 been deleted from meeting
+        private bool user4InMeeting = false; //has user4 been deleted from meeting
 
         struct Slots
         {
-          public int fromSlotint;
-          public int toSlotint;
-          public int user1ExclSetint;
-          public int user1PrefSetint;
-          public int user2PrefSetint;
-          public int user2ExclSetint;
-          public int user3PrefSetint;
-          public int user3ExclSetint;
-          public int user4PrefSetint;
-          public int user4ExclSetint;
+            public int fromSlotint;
+            public int toSlotint;
+            public int user1ExclSetint;
+            public int user1PrefSetint;
+            public int user2PrefSetint;
+            public int user2ExclSetint;
+            public int user3PrefSetint;
+            public int user3ExclSetint;
+            public int user4PrefSetint;
+            public int user4ExclSetint;
         }                   //struct to hold all the information about the slots
 
         Slots slots = new Slots();
@@ -65,9 +65,9 @@ namespace MeetingApp
             user4lbl.Text = "Pit";
 
             string[] slots = { "Slot 1", "Slot 2", "Slot 3", "Slot 4", "Slot 5" };
-            string[] equipment = { "Equipment 1", "Equipment 2", "Equipment 3", "Equipment 4", };
+            int[] equipment = {1,2,3,4,5};
             string[] meetingRoom = { "Room 1", "Room 2", "Room 3" };
-            
+
             fromComboBox.DataSource = slots.ToList();
             toComboBox.DataSource = slots.ToList();
             specialuqcombobox.DataSource = equipment.ToList();
@@ -93,20 +93,20 @@ namespace MeetingApp
         { //check that all the information has been filled in by the initator
             bool isData = false;
 
-             user1PrefSet = user1txt.Text;
-             user1ExclSet = user1exclusionsetbox.Text;
-             user2PrefSet = user2txt.Text; ;
-             user2ExclSet = user2exclusionsetbox.Text;;
-             user3PrefSet = user3txt.Text; ;
-             user3ExclSet = user3exclusionsetbox.Text;;
-             user4PrefSet = user4txt.Text; ;
-             user4ExclSet = user4exclusionsetbox.Text;;
+            user1PrefSet = user1txt.Text;
+            user1ExclSet = user1exclusionsetbox.Text;
+            user2PrefSet = user2txt.Text; ;
+            user2ExclSet = user2exclusionsetbox.Text; ;
+            user3PrefSet = user3txt.Text; ;
+            user3ExclSet = user3exclusionsetbox.Text; ;
+            user4PrefSet = user4txt.Text; ;
+            user4ExclSet = user4exclusionsetbox.Text; ;
 
             if (user1PrefSet != "")
             {
-                if(user1ExclSet != "")
+                if (user1ExclSet != "")
                 {
-                    if(user2PrefSet != "")
+                    if (user2PrefSet != "")
                     {
                         if (user2ExclSet != "")
                         {
@@ -118,50 +118,50 @@ namespace MeetingApp
                                     {
                                         if (user4ExclSet != "")
                                         {
-                                            if(fromComboBox.SelectedItem != null)
+                                            if (fromComboBox.SelectedItem != null)
                                             {
                                                 fromSlot = fromComboBox.SelectedValue.ToString();
-                                                if(toComboBox.SelectedItem != null)
+                                                if (toComboBox.SelectedItem != null)
                                                 {
                                                     toSlot = toComboBox.SelectedValue.ToString();
                                                     isData = true;
-                                                    if(specialuqcombobox.SelectedItem != null)
+                                                    if (specialuqcombobox.SelectedItem != null)
                                                     {
-                                                        specEq = specialuqcombobox.SelectedValue.ToString();
+                                                        specEq =int.Parse(specialuqcombobox.SelectedValue.ToString());
                                                         if (roomcombobox.SelectedItem != null)
                                                         {
                                                             meetingRoom = roomcombobox.SelectedValue.ToString();
                                                         }
                                                     }
-                                                    
+
                                                 }
                                                 else
-                                                    errorstxtbox.Text=(loginScreen.user1.getusername() + ", please choose to slot");
+                                                    errorstxtbox.Text = (loginScreen.user1.getusername() + ", please choose to slot");
                                             }
                                             else
-                                                errorstxtbox.Text=(loginScreen.user1.getusername() + ", please choose from slot");
+                                                errorstxtbox.Text = (loginScreen.user1.getusername() + ", please choose from slot");
 
                                         }
                                         else
-                                            errorstxtbox.Text=("Please enter user4 exclusion set");
+                                            errorstxtbox.Text = ("Please enter user4 exclusion set");
                                     }
                                     else
-                                        errorstxtbox.Text=("Please enter user4 preference set");
+                                        errorstxtbox.Text = ("Please enter user4 preference set");
                                 }
                                 else
-                                    errorstxtbox.Text=("Please enter user3 exclusion set");
+                                    errorstxtbox.Text = ("Please enter user3 exclusion set");
                             }
                             else
-                                errorstxtbox.Text=("Please enter user3 preference set");
+                                errorstxtbox.Text = ("Please enter user3 preference set");
                         }
                         else
-                            errorstxtbox.Text=("Please enter user2 exclusion set");
+                            errorstxtbox.Text = ("Please enter user2 exclusion set");
                     }
                     else
-                        errorstxtbox.Text=("Please enter user2 preferences set");
+                        errorstxtbox.Text = ("Please enter user2 preferences set");
                 }
                 else
-                    errorstxtbox.Text=("Please enter user1 exclusion set");
+                    errorstxtbox.Text = ("Please enter user1 exclusion set");
             }
             else
                 errorstxtbox.Text = ("Please enter user1 preferences set");
@@ -173,7 +173,7 @@ namespace MeetingApp
 
         private void convertSlotsToInteger()
         {
-          // Retrieve the slot value, and store it as a number for easier manipulation   
+            // Retrieve the slot value, and store it as a number for easier manipulation   
             if (fromSlot != null)
             {
                 if (fromSlot == "Slot 1")
@@ -319,21 +319,25 @@ namespace MeetingApp
             bool u3check = false;
             bool u4check = false;
 
-            
+
             if ((slots.user1PrefSetint >= slots.fromSlotint) && ((slots.user1PrefSetint < slots.toSlotint)))
-                {
+            {
                 user1resulttxt.Text = "Success";
                 u1check = true;
-                }
-            if((slots.user1PrefSetint > slots.fromSlotint) && ((slots.user1PrefSetint > slots.toSlotint)))
+            }
+            if ((slots.user1PrefSetint > slots.fromSlotint) && ((slots.user1PrefSetint > slots.toSlotint)))
             {
                 user1resulttxt.Text = "Chosen slots out of range, please extend your preference set";
             }
-            if (slots.user1PrefSetint < slots.fromSlotint) {
-                user1resulttxt.Text = "Extend your preference set, out of range"; }
-            if (slots.user1PrefSetint > slots.toSlotint) {
-                user1resulttxt.Text = "Change preference set to earlier slot"; }
-            if(slots.user1PrefSetint == slots.toSlotint)
+            if (slots.user1PrefSetint < slots.fromSlotint)
+            {
+                user1resulttxt.Text = "Extend your preference set, out of range";
+            }
+            if (slots.user1PrefSetint > slots.toSlotint)
+            {
+                user1resulttxt.Text = "Change preference set to earlier slot";
+            }
+            if (slots.user1PrefSetint == slots.toSlotint)
             {
                 user1resulttxt.Text = "Success";
                 u1check = true;
@@ -344,7 +348,7 @@ namespace MeetingApp
                 u1check = false;
             }
 
-          
+
             if (slots.user2PrefSetint == slots.toSlotint)
             {
                 user2resulttxt.Text = "Success";
@@ -373,7 +377,7 @@ namespace MeetingApp
                 u2check = false;
             }
 
-            
+
             if (slots.user3PrefSetint == slots.toSlotint)
             {
                 user3resulttxt.Text = "Success";
@@ -403,7 +407,7 @@ namespace MeetingApp
             }
 
 
-            
+
             if (slots.user4PrefSetint == slots.toSlotint)
             {
                 user4resulttxt.Text = "Success";
@@ -452,11 +456,11 @@ namespace MeetingApp
                 {
                     if (user1InMeeting == true)
                     {
-                        if(user2InMeeting == false)
+                        if (user2InMeeting == false)
                         {
-                            if(user3InMeeting == false)
+                            if (user3InMeeting == false)
                             {
-                                if(user4InMeeting == false)
+                                if (user4InMeeting == false)
                                 {
                                     statustxtbox.Text = "Scheduled";
                                     errorstxtbox.Text = "";
@@ -464,9 +468,9 @@ namespace MeetingApp
                                 }
                                 else
                                 {
-                                    if(slots.user1PrefSetint != slots.user4ExclSetint)
+                                    if (slots.user1PrefSetint != slots.user4ExclSetint)
                                     {
-                                        if(slots.user4ExclSetint != slots.user1PrefSetint)
+                                        if (slots.user4ExclSetint != slots.user1PrefSetint)
                                         {
                                             statustxtbox.Text = "Scheduled";
                                             errorstxtbox.Text = "";
@@ -664,20 +668,22 @@ namespace MeetingApp
         private void setDetails()
         {
             //set all the meeting information here
-            
+
             int meetingDate;
             isDataFilledIn();
             checkIfSlotsMatch();
             meetingDate = returnIdealMeetingDate();
-            specialEqtxtbox.Text = specEq;
-            meetingroomtxt.Text = meetingRoom;
+            specialEqtxtbox.Text = specialuqcombobox.SelectedValue.ToString();
+            meetingroomtxt.Text = roomcombobox.SelectedValue.ToString();
+            meetingRoom = roomcombobox.SelectedValue.ToString(); ;
             checkStatus();
+            saveMeetingInDtabase(meetingDate);
             if (meetingDate != 0)
             {
                 meetingdatetxtbox.Text = "Slot " + meetingDate.ToString();
             }
-            
-            
+
+
 
 
         }
@@ -698,13 +704,16 @@ namespace MeetingApp
         {
             //if delete user 1 button is clicked, check that the user is not important to the meeting
             // if user is important, show an error message, otherwise delete the user
-            if(u1important.Checked == true)
+            if (u1important.Checked == true)
             {
-                
+
                 MessageBox.Show("Can't delete an important user!");
             }
             else
             {
+                user1PrefSet = null;
+                user1ExclSet = null;
+                user1lbl.Text = null;
                 u1important.Visible = false;
                 user1lbl.Visible = false;
                 user1preflbl.Visible = false;
@@ -728,6 +737,9 @@ namespace MeetingApp
             }
             else
             {
+                user2PrefSet = null;
+                user2ExclSet = null;
+                user2lbl.Text = null;
                 u2important.Visible = false;
                 user2lbl.Visible = false;
                 user2preflbl.Visible = false;
@@ -751,6 +763,9 @@ namespace MeetingApp
             }
             else
             {
+                user3PrefSet = null;
+                user3ExclSet = null;
+                user3lbl.Text = null;
                 u3important.Visible = false;
                 user3lbl.Visible = false;
                 user3preflbl.Visible = false;
@@ -774,6 +789,9 @@ namespace MeetingApp
             }
             else
             {
+                user4PrefSet = null;
+                user4ExclSet = null;
+                user4lbl.Text = null;
                 u4important.Visible = false;
                 user4lbl.Visible = false;
                 user4preflbl.Visible = false;
@@ -791,7 +809,7 @@ namespace MeetingApp
             //compute how many users there are in the meeting
             bool usersInMeeting = false;
 
-            if(user1lbl.Visible == true)
+            if (user1lbl.Visible == true)
             {
                 user1InMeeting = true;
                 if (user2lbl.Visible == true)
@@ -881,11 +899,11 @@ namespace MeetingApp
             }
             return usersInMeeting;
         }
-           
+
         private void checkStatus()
         {
             //check what the status message should be, and set it
-            if(user1resulttxt.Text == "Success")
+            if (user1resulttxt.Text == "Success")
             {
                 if (user2resulttxt.Text == "Success")
                 {
@@ -963,5 +981,68 @@ namespace MeetingApp
             }
         }
 
+        private void saveMeetingInDtabase(int meetingDate1)
+
+        {
+            if (meetingDate1 != 0)
+            {
+                SqlConnection con = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\user\Documents\database1.mdf;Integrated Security=True;Connect Timeout=30");
+                con.Open(); // connect to database and establish connection
+
+                SqlCommand checkMeetingDate = new SqlCommand("Select meetingDate from meetingsNw where meetingDate= @meetingDate", con); // statement to check if user exists
+                SqlCommand checkMeetingRoom = new SqlCommand("Select meetingRoom from meetingsNw where meetingRoom= @meetingRoom", con); // statement to check if user exists
+                SqlCommand checkSpecialEquipment = new SqlCommand("Select specialEquipment from meetingsNw where specialEquipment= @specialEquipment1", con); // statement to check if user exists
+                checkMeetingDate.Parameters.AddWithValue("@meetingDate", meetingDate1); // value assigned to username to be searched in database  
+                checkMeetingRoom.Parameters.AddWithValue("@meetingRoom", meetingRoom);
+                checkSpecialEquipment.Parameters.AddWithValue("@specialEquipment1", specEq);
+                var nId = checkMeetingDate.ExecuteScalar();
+                var vId = checkMeetingRoom.ExecuteScalar();
+                var cId = checkSpecialEquipment.ExecuteScalar();
+                bool meetingExists = false;
+                bool specEqExists = false;
+                if (nId != null)
+                {
+                    if (vId != null)
+                    {
+                        MessageBox.Show("Meeting is already booked for this slot and meeting room!");
+                        user1resulttxt.Text = "Change slot or room of the meeting";
+                        user2resulttxt.Text = "Change slot or room of the meeting";
+                        user3resulttxt.Text = "Change slot or room of the meeting";
+                        user4resulttxt.Text = "Change slot or room of the meeting";
+                        statustxtbox.Text = "Not scheduled";
+                        errorstxtbox.Text = "Meeting already exists for given information";
+                        meetingExists = true;
+                    }
+                    if (cId != null)
+                    {
+                        MessageBox.Show("This equipment is already booked for this slot");
+                        user1resulttxt.Text = "Change slot or room of the meeting, otherwise remove the spec eq";
+                        user2resulttxt.Text = "Change slot or room of the meeting, otherwise remove the spec eq";
+                        user3resulttxt.Text = "Change slot or room of the meeting, otherwise remove the spec eq";
+                        user4resulttxt.Text = "Change slot or room of the meeting, otherwise remove the spec eq";
+                        statustxtbox.Text = "Not scheduled";
+                        errorstxtbox.Text = "Special equipment already hired";
+                        specEqExists = true;
+                    }   
+                }
+
+                if (meetingExists == false)
+                {
+                    if (specEqExists == false)
+                    {
+                        SqlCommand cmd = new SqlCommand("insert into meetingsNw values (@meetingRoom, @specialEquipment,@meetingDate,@user1,@user2,@user3,@user4)", con); // statement to insert values into the table
+                        cmd.Parameters.AddWithValue("meetingRoom", meetingRoom); // insert username
+                        cmd.Parameters.AddWithValue("specialEquipment", specEq); // insert password
+                        cmd.Parameters.AddWithValue("meetingDate", meetingDate1);    // insert email
+                        cmd.Parameters.AddWithValue("user1", user1lbl.Text);      // insert name
+                        cmd.Parameters.AddWithValue("user2", user2lbl.Text);
+                        cmd.Parameters.AddWithValue("user3", user3lbl.Text);
+                        cmd.Parameters.AddWithValue("user4", user4lbl.Text);
+                        cmd.ExecuteNonQuery();   // execute the sql query
+                    }
+                }
+
+            }
+        }
         }
     }
